@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SRM International School - Learn · Excel · Shine</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#B8962E;--gold-light:#D4AF37;--blue:#1B5C8A;--blue-dark:#0d3d5e;
+  --blue-light:#2980B9;--white:#ffffff;--off-white:#f9f8f5;--text:#222222;
+  --text-light:#666666;--green:#28a745;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;color:var(--text);background:var(--white);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* TOPBAR */
+.topbar{background:var(--blue-dark);color:#fff;font-size:12.5px;padding:7px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.topbar a{color:#fff;margin-left:10px;opacity:.9;}.topbar a:hover{opacity:1;}
+
+/* NAV */
+nav{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.1);position:sticky;top:0;z-index:1000;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;max-width:1200px;margin:auto;}
+.logo-wrap{display:flex;align-items:center;gap:12px;}
+.logo-wrap img{height:64px;width:auto;}
+.logo-text{display:flex;flex-direction:column;line-height:1.1;}
+.logo-text strong{font-family:'Playfair Display',serif;font-size:20px;color:var(--blue);font-weight:900;}
+.logo-text span{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:700;}
+.nav-links{display:flex;gap:4px;list-style:none;align-items:center;}
+.nav-links a{padding:8px 14px;font-size:14px;font-weight:700;color:var(--blue);border-radius:6px;transition:.2s;letter-spacing:.3px;}
+.nav-links a:hover,.nav-links a.active{background:var(--blue);color:#fff;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:24px;height:2.5px;background:var(--blue);border-radius:2px;transition:.3s;}
+.mobile-menu{display:none;position:fixed;inset:0;background:#fff;z-index:2000;flex-direction:column;padding:30px 24px;overflow-y:auto;}
+.mobile-menu.open{display:flex;}
+.mobile-menu-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;}
+.mobile-menu ul{list-style:none;display:flex;flex-direction:column;gap:0;}
+.mobile-menu ul a{display:block;padding:16px 0;font-size:18px;font-weight:700;color:var(--blue);border-bottom:1px solid #eee;}
+.close-btn{font-size:28px;cursor:pointer;color:var(--blue);font-weight:300;}
+
+/* MARQUEE */
+.marquee-bar{background:var(--gold);color:#fff;padding:9px 0;overflow:hidden;}
+.marquee-inner{display:flex;white-space:nowrap;animation:marquee 28s linear infinite;}
+.marquee-inner span{padding:0 32px;font-size:13px;font-weight:700;letter-spacing:.5px;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* HERO */
+.hero{position:relative;height:90vh;min-height:480px;max-height:750px;overflow:hidden;background:var(--blue-dark);}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;display:flex;align-items:center;}
+.hero-slide.active{opacity:1;}
+.hero-bg{position:absolute;inset:0;}
+.hero-bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(11,38,62,.88) 0%,rgba(27,92,138,.55) 100%);}
+.hero-content{position:relative;z-index:2;max-width:700px;padding:0 56px;color:#fff;}
+.hero-badge{display:inline-block;background:var(--gold);color:#fff;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:18px;}
+.hero-content h1{font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,60px);font-weight:900;line-height:1.1;margin-bottom:16px;}
+.hero-content h1 em{color:var(--gold-light);font-style:normal;}
+.hero-content p{font-size:16px;opacity:.9;line-height:1.7;max-width:520px;margin-bottom:28px;}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;}
+.btn{padding:13px 28px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer;transition:.25s;letter-spacing:.4px;border:2px solid transparent;display:inline-block;}
+.btn-primary{background:var(--gold);color:#fff;border-color:var(--gold);}
+.btn-primary:hover{background:var(--gold-light);border-color:var(--gold-light);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:#fff;border-color:rgba(255,255,255,.7);}
+.btn-outline:hover{background:#fff;color:var(--blue);}
+.hero-dots{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10;}
+.hero-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:.3s;}
+.hero-dots span.active{background:#fff;width:28px;border-radius:6px;}
+
+/* STATS BAR */
+.stats-bar{background:var(--blue);color:#fff;}
+.stats-inner{display:flex;max-width:1200px;margin:auto;}
+.stat-item{flex:1;padding:22px 16px;text-align:center;border-right:1px solid rgba(255,255,255,.15);}
+.stat-item:last-child{border-right:none;}
+.stat-num{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--gold-light);}
+.stat-label{font-size:12px;opacity:.8;letter-spacing:1px;text-transform:uppercase;margin-top:4px;}
+
+/* SECTIONS */
+section{padding:70px 20px;}
+.container{max-width:1160px;margin:auto;}
+.section-label{font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,38px);font-weight:700;color:var(--blue-dark);line-height:1.2;margin-bottom:14px;}
+.section-line{width:56px;height:4px;background:var(--gold);border-radius:2px;margin-bottom:30px;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+.about-img-wrap{position:relative;}
+.about-img-box{width:100%;height:420px;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,var(--blue),var(--blue-light));}
+.about-img-box img{width:100%;height:100%;object-fit:cover;}
+.about-badge{position:absolute;bottom:-18px;right:-18px;background:var(--gold);color:#fff;padding:18px 22px;border-radius:12px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.about-badge strong{display:block;font-size:28px;font-weight:900;}
+.about-badge span{font-size:11px;letter-spacing:.5px;opacity:.9;}
+.about-blockquote{background:var(--off-white);border-left:4px solid var(--gold);padding:18px 22px;border-radius:0 10px 10px 0;margin-bottom:18px;font-style:italic;font-size:16px;color:var(--blue-dark);line-height:1.6;}
+.about-text p{color:var(--text-light);line-height:1.8;margin-bottom:13px;font-size:15px;}
+
+/* TOPPERS */
+.toppers-section{background:var(--off-white);}
+.toppers-grid{display:flex;gap:22px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;}
+.toppers-grid::-webkit-scrollbar{display:none;}
+.topper-card{min-width:220px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);border:2px solid transparent;transition:.3s;flex-shrink:0;}
+.topper-card:hover{border-color:var(--gold);transform:translateY(-4px);}
+.topper-photo{height:190px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--blue),var(--blue-light));}
+.topper-photo img{width:100%;height:100%;object-fit:cover;}
+.topper-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:rgba(255,255,255,.8);}
+.topper-placeholder .ph-icon{font-size:36px;}
+.topper-placeholder .ph-name{font-size:13px;font-weight:700;}
+.topper-badge-top{position:absolute;top:10px;left:10px;background:var(--gold);color:#fff;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
+.topper-info{padding:16px;}
+.topper-score{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--gold);}
+.topper-name{font-weight:800;font-size:15px;color:var(--blue-dark);margin:4px 0 2px;}
+.topper-class{font-size:13px;color:var(--text-light);}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;}
+.feature-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 18px rgba(0,0,0,.07);border:1px solid #f0f0f0;transition:.3s;}
+.feature-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.13);transform:translateY(-4px);}
+.feature-icon-box{height:160px;display:flex;align-items:center;justify-content:center;font-size:64px;background:linear-gradient(135deg,#e8f4fd,#dbeafe);}
+.feature-body{padding:20px;}
+.feature-body h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--blue-dark);margin-bottom:8px;}
+.feature-body p{font-size:14px;color:var(--text-light);line-height:1.6;margin-bottom:14px;}
+.btn-sm{padding:9px 20px;font-size:13px;border-radius:6px;font-weight:700;display:inline-block;border:2px solid var(--blue);color:var(--blue);transition:.2s;}
+.btn-sm:hover{background:var(--blue);color:#fff;}
+
+/* TESTIMONIALS */
+.testimonials-section{background:var(--blue-dark);}
+.testimonials-section .section-label{color:var(--gold-light);}
+.testimonials-section .section-title{color:#fff;}
+.testimonials-section .section-line{background:var(--gold-light);}
+.testi-wrapper{overflow:hidden;}
+.testi-track{display:flex;transition:transform .5s ease;}
+.testi-card{background:#fff;border-radius:16px;padding:30px;flex-shrink:0;width:50%;}
+@media(max-width:640px){.testi-card{width:100%;}}
+.testi-avatar{width:52px;height:52px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-weight:800;margin-bottom:14px;}
+.testi-name{font-weight:800;font-size:16px;color:var(--blue-dark);}
+.testi-role{font-size:13px;color:var(--gold);font-weight:700;}
+.testi-text{font-size:14px;color:var(--text-light);line-height:1.7;margin:10px 0;}
+.stars{color:#f5a623;font-size:16px;letter-spacing:2px;}
+.testi-nav{display:flex;gap:10px;margin-top:22px;justify-content:center;}
+.testi-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:.3s;}
+.testi-dot.active{background:#fff;width:28px;border-radius:6px;}
+
+/* Parent Video Testimonials */
+.parent-video-section{margin-top:60px;}
+.parent-video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px;}
+.video-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.09);transition:transform 0.3s;}
+.video-card:hover{transform:translateY(-6px);}
+.video-card video{width:100%;height:220px;object-fit:cover;background:#000;}
+.video-card .video-info{padding:16px;text-align:center;}
+.video-card .video-info p{font-weight:700;color:var(--blue-dark);margin:0;font-size:15px;}
+.video-card .video-info small{color:var(--gold);font-weight:600;}
+
+/* GALLERY */
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.gallery-item{aspect-ratio:1;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;background:linear-gradient(135deg,var(--blue-dark),var(--blue));}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:.4s;display:block;}
+.gallery-item:hover img{transform:scale(1.08);}
+
+/* FOOTER */
+footer{background:#0d1f2d;color:#fff;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:40px;padding:60px 20px 40px;max-width:1160px;margin:auto;}
+.footer-brand p{font-size:14px;opacity:.7;line-height:1.7;margin:14px 0 20px;}
+.social-links{display:flex;gap:10px;}
+.social-link{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;transition:.3s;cursor:pointer;}
+.social-link:hover{background:var(--gold);}
+.footer-col h4{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.footer-col ul li a{font-size:14px;opacity:.7;transition:.2s;cursor:pointer;}
+.footer-col ul li a:hover{opacity:1;color:var(--gold-light);}
+.footer-contact-item{display:flex;gap:10px;margin-bottom:14px;align-items:flex-start;}
+.footer-contact-item .ico{opacity:.6;font-size:15px;margin-top:1px;}
+.footer-contact-item p{font-size:13px;opacity:.7;line-height:1.5;}
+.footer-contact-item a{color:rgba(255,255,255,.7);}
+.footer-contact-item a:hover{color:var(--gold-light);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);text-align:center;padding:18px;font-size:13px;opacity:.5;}
+
+/* MPD PAGE */
+.page-hero{background:linear-gradient(135deg,var(--blue-dark),var(--blue));padding:80px 20px;text-align:center;color:#fff;}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,46px);font-weight:900;margin-bottom:10px;}
+.page-hero p{font-size:15px;opacity:.85;max-width:580px;margin:auto;}
+.mpd-table{width:100%;border-collapse:collapse;margin:20px 0;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.08);}
+.mpd-table th,.mpd-table td{padding:14px 16px;border:1px solid #ddd;text-align:left;vertical-align:top;}
+.mpd-table th{background:var(--blue-dark);color:#fff;font-weight:700;}
+.mpd-table tr:nth-child(even){background:#f9f9f9;}
+.view-link{color:var(--gold);font-weight:700;text-decoration:underline;}
+.view-link:hover{color:var(--gold-light);}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+.contact-item{display:flex;gap:12px;margin-bottom:20px;align-items:flex-start;}
+.contact-item .ico{font-size:18px;margin-top:1px;}
+.contact-item-text p:first-child{font-weight:800;color:var(--blue-dark);margin-bottom:4px;font-size:15px;}
+.contact-item-text p:last-child{color:var(--text-light);font-size:14px;line-height:1.5;}
+.contact-item-text a{color:var(--blue);}
+.form-input{width:100%;padding:13px 16px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;font-family:'Nunito',sans-serif;outline:none;transition:.2s;margin-bottom:14px;}
+.form-input:focus{border-color:var(--blue);}
+
+/* FLOATING */
+.float-contact{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:900;display:flex;flex-direction:column;gap:3px;}
+.float-btn{display:flex;align-items:center;gap:10px;background:var(--blue);color:#fff;padding:11px 14px;font-size:12px;font-weight:700;cursor:pointer;transition:.3s;border-radius:0 8px 8px 0;overflow:hidden;max-width:46px;white-space:nowrap;}
+.float-btn:hover{max-width:210px;background:var(--blue-dark);}
+.float-wa{background:#25D366;}.float-wa:hover{background:#1da851;}
+
+/* SCROLL TOP */
+.scroll-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;background:var(--green);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;z-index:999;box-shadow:0 4px 14px rgba(0,0,0,.2);opacity:0;transition:.3s;font-weight:700;}
+.scroll-top.visible{opacity:1;}
+
+/* PAGE SYSTEM */
+.page{display:none;}.page.active{display:block;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .nav-links{display:none;}.hamburger{display:flex;}
+  .hero-content{padding:0 22px;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{grid-template-columns:1fr;}
+  .float-contact{display:none;}
+  .stats-inner{flex-wrap:wrap;}
+  .stat-item{flex:1 1 50%;border-right:none;border-bottom:1px solid rgba(255,255,255,.1);}
+  .testi-card{width:100%!important;}
+  .parent-video-grid{grid-template-columns:1fr;}
+}
+
+/* ===========================
+   ADMIN PANEL STYLES
+   =========================== */
+#adminToggleBtn {
+  display: none !important;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* LOGIN OVERLAY */
+#adminLoginOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+}
+#adminLoginOverlay.open { display: flex; }
+.login-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 44px 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+  text-align: center;
+}
+.login-box h2 { font-family:'Playfair Display',serif;color:var(--blue-dark);font-size:26px;margin-bottom:6px; }
+.login-box p { color:var(--text-light);font-size:14px;margin-bottom:28px; }
+.login-box input { width:100%;padding:13px 16px;border:1.5px solid #ddd;border-radius:10px;font-size:15px;font-family:'Nunito',sans-serif;outline:none;margin-bottom:14px;transition:.2s; }
+.login-box input:focus { border-color:var(--blue); }
+.login-box button { width:100%;padding:14px;background:var(--blue-dark);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:.2s; }
+.login-box button:hover { background:var(--blue); }
+.login-error { color:#e53e3e;font-size:13px;margin-top:-6px;margin-bottom:10px;display:none; }
+.login-cancel { margin-top:14px;color:var(--text-light);font-size:13px;cursor:pointer;display:inline-block; }
+.login-cancel:hover { color:var(--blue-dark); }
+
+/* ADMIN PANEL DRAWER */
+#adminPanel {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 520px;
+  max-width: 100vw;
+  height: 100vh;
+  background: #0d1520;
+  z-index: 10000;
+  flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0,0,0,.6);
+  font-family: 'Nunito', sans-serif;
+}
+#adminPanel.open { display: flex; }
+
+.ap-header {
+  background: linear-gradient(135deg, #1a1a2e, #0d3d5e);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  flex-shrink: 0;
+}
+.ap-header-left { display: flex; flex-direction: column; gap: 3px; }
+.ap-header-left h2 { color: #fff; font-size: 18px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+.ap-header-left span { color: rgba(255,255,255,.5); font-size: 12px; }
+.ap-close { background: rgba(255,255,255,.1); border: none; color: #fff; width: 36px; height: 36px; border-radius: 8px; font-size: 18px; cursor: pointer; transition: .2s; display: flex; align-items: center; justify-content: center; }
+.ap-close:hover { background: rgba(255,255,255,.2); }
+
+.ap-tabs {
+  display: flex;
+  background: #0a1020;
+  padding: 0 24px;
+  gap: 4px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.ap-tabs::-webkit-scrollbar { display: none; }
+.ap-tab {
+  padding: 12px 14px;
+  color: rgba(255,255,255,.4);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: .2s;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+.ap-tab:hover { color: rgba(255,255,255,.7); }
+.ap-tab.active { color: #D4AF37; border-bottom-color: #D4AF37; }
+
+.ap-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.1) transparent;
+}
+.ap-body::-webkit-scrollbar { width: 6px; }
+.ap-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,.1); border-radius: 3px; }
+
+.ap-section { display: none; }
+.ap-section.active { display: block; }
+
+.ap-group {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.ap-group-title {
+  color: #D4AF37;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ap-group-title::after { content:''; flex:1; height:1px; background:rgba(212,175,55,.2); }
+
+.ap-field { margin-bottom: 14px; }
+.ap-field label { display: block; color: rgba(255,255,255,.6); font-size: 11px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 6px; }
+.ap-field input, .ap-field textarea, .ap-field select {
+  width: 100%;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+  transition: .2s;
+}
+.ap-field input:focus, .ap-field textarea:focus { border-color: #D4AF37; background: rgba(255,255,255,.09); }
+.ap-field textarea { resize: vertical; min-height: 70px; }
+.ap-field input[type="color"] { padding: 4px 8px; height: 38px; cursor: pointer; }
+
+.ap-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ap-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+.ap-btn {
+  background: #D4AF37;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.ap-btn:hover { background: #B8962E; }
+.ap-btn-danger { background: #e53e3e; color: #fff; }
+.ap-btn-danger:hover { background: #c53030; }
+.ap-btn-green { background: #38a169; color: #fff; }
+.ap-btn-green:hover { background: #2f855a; }
+.ap-btn-blue { background: #3182ce; color: #fff; }
+.ap-btn-blue:hover { background: #2b6cb0; }
+.ap-btn-sm { padding: 7px 14px; font-size: 12px; }
+.ap-btn-full { width: 100%; justify-content: center; }
+
+.ap-footer {
+  background: #0a1020;
+  padding: 16px 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ap-apply-all {
+  background: linear-gradient(135deg, #D4AF37, #B8962E);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  flex: 1;
+  transition: .2s;
+  letter-spacing: .3px;
+}
+.ap-apply-all:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,175,55,.4); }
+
+.ap-download {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ap-download:hover { background: rgba(255,255,255,.14); }
+
+/* Topper / Testi item */
+.ap-item {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.ap-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.ap-item-header span {
+  color: #D4AF37;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ap-toast {
+  position: fixed;
+  bottom: 160px;
+  right: 24px;
+  background: #38a169;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  z-index: 11000;
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 4px 20px rgba(0,0,0,.3);
+}
+.ap-toast.show { opacity: 1; }
+
+.ap-badge-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(212,175,55,.15);
+  border: 1px solid rgba(212,175,55,.3);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #D4AF37;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.ap-divider { height: 1px; background: rgba(255,255,255,.06); margin: 16px 0; }
+
+.ap-logout {
+  background: rgba(229,62,62,.15);
+  color: #fc8181;
+  border: 1px solid rgba(229,62,62,.3);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: .2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ap-logout:hover { background: rgba(229,62,62,.25); }
+</style>
+</head>
+<body>
+
+<!-- ====== ADMIN TOGGLE BUTTON ====== -->
+<button id="adminToggleBtn" onclick="openAdminLogin()">
+  <div class="admin-dot"></div>
+  ⚙ Admin Panel
+</button>
+
+<!-- ====== ADMIN LOGIN OVERLAY ====== -->
+<div id="adminLoginOverlay">
+  <div class="login-box">
+    <h2>🔐 Admin Access</h2>
+    <p>Enter credentials to access the website admin panel</p>
+    <input type="text" id="loginUser" placeholder="Username" />
+    <input type="password" id="loginPass" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()" />
+    <p class="login-error" id="loginError">❌ Invalid username or password</p>
+    <button onclick="doLogin()">Login to Admin Panel</button>
+    <p class="login-cancel" onclick="closeAdminLogin()">✕ Cancel</p>
+  </div>
+</div>
+
+<!-- ====== ADMIN PANEL DRAWER ====== -->
+<div id="adminPanel">
+  <div class="ap-header">
+    <div class="ap-header-left">
+      <h2><span style="font-size:20px;">⚙</span> Admin Panel</h2>
+      <span>SRM International School — Live Editor</span>
+    </div>
+    <button class="ap-close" onclick="closeAdminPanel()">✕</button>
+  </div>
+
+  <div class="ap-tabs">
+    <div class="ap-tab active" onclick="switchTab('general')">General</div>
+    <div class="ap-tab" onclick="switchTab('hero')">Hero</div>
+    <div class="ap-tab" onclick="switchTab('stats')">Stats</div>
+    <div class="ap-tab" onclick="switchTab('about')">About</div>
+    <div class="ap-tab" onclick="switchTab('toppers')">Toppers</div>
+    <div class="ap-tab" onclick="switchTab('features')">Features</div>
+    <div class="ap-tab" onclick="switchTab('testimonials')">Testimonials</div>
+    <div class="ap-tab" onclick="switchTab('contact')">Contact</div>
+    <div class="ap-tab" onclick="switchTab('footer')">Footer</div>
+    <div class="ap-tab" onclick="switchTab('marquee')">Marquee</div>
+  </div>
+
+  <div class="ap-body">
+
+    <!-- GENERAL TAB -->
+    <div class="ap-section active" id="ap-general">
+      <div class="ap-group">
+        <div class="ap-group-title">School Identity</div>
+        <div class="ap-field"><label>School Name</label><input id="ap_schoolName" value="SRM International School"/></div>
+        <div class="ap-field"><label>Tagline / Motto</label><input id="ap_motto" value="Learn · Excel · Shine"/></div>
+        <div class="ap-field"><label>CBSE Affiliation No.</label><input id="ap_affNo" value="3530668"/></div>
+        <div class="ap-field"><label>School Code</label><input id="ap_schoolCode" value="80124"/></div>
+        <div class="ap-field"><label>Email</label><input id="ap_email" value="SRMINTSTG@gmail.com"/></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Contact Numbers</div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Primary Phone</label><input id="ap_phone1" value="9105666000"/></div>
+          <div class="ap-field"><label>Secondary Phone</label><input id="ap_phone2" value="9690958398"/></div>
+        </div>
+        <div class="ap-field"><label>WhatsApp Number (with country code)</label><input id="ap_waNum" value="919105666000"/></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Address</div>
+        <div class="ap-field"><label>Full Address</label><textarea id="ap_address">Turka-Tisore, Khatima Road, Sitarganj, U.S. Nagar, Uttarakhand - 262405</textarea></div>
+        <div class="ap-field"><label>Short Address (for topbar)</label><input id="ap_shortAddr" value="Turka-Tisore, Khatima Road, Sitarganj, U.S. Nagar, Uttarakhand"/></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Social Media Links</div>
+        <div class="ap-field"><label>📸 Instagram URL</label><input id="ap_instagram" value="https://www.instagram.com/srminternationalstg?igsh=MXIyeG9iZXo0cnFhbA=="/></div>
+        <div class="ap-field"><label>👍 Facebook URL</label><input id="ap_facebook" value="https://www.facebook.com/share/1KWbaGspHx/"/></div>
+        <div class="ap-field"><label>▶️ YouTube URL</label><input id="ap_youtube" value="https://youtube.com/@srminternationalstg?si=JcnIzV6kVH3-DxV3"/></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">School Timing</div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Days</label><input id="ap_days" value="Monday – Saturday"/></div>
+          <div class="ap-field"><label>Hours</label><input id="ap_hours" value="8:00 AM – 2:30 PM"/></div>
+        </div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Principal Information</div>
+        <div class="ap-field"><label>Principal Name</label><input id="ap_principalName" value="Mrs.Neeru Singh"/></div>
+        <div class="ap-field"><label>Qualification</label><input id="ap_principalQual" value="M.A, M.ED"/></div>
+      </div>
+    </div>
+
+    <!-- HERO TAB -->
+    <div class="ap-section" id="ap-hero">
+      <div class="ap-group">
+        <div class="ap-group-title">Slide 1</div>
+        <div class="ap-field"><label>Badge Text</label><input id="ap_s1badge" value="CBSE Affiliated School"/></div>
+        <div class="ap-field"><label>Heading (use [em]text[/em] for gold highlight)</label><input id="ap_s1h1" value="Where [em]Excellence[/em] Meets [em]Education[/em]"/></div>
+        <div class="ap-field"><label>Paragraph</label><textarea id="ap_s1p">SRM International School nurtures young minds with quality education, strong values, and a vibrant learning environment in Sitarganj, Uttarakhand.</textarea></div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Button 1 Text</label><input id="ap_s1b1t" value="Explore School"/></div>
+          <div class="ap-field"><label>Button 2 Text</label><input id="ap_s1b2t" value="Enquire Now"/></div>
+        </div>
+        <div class="ap-field"><label>Image filename (e.g. photo1.jpg)</label><input id="ap_s1img" value="photo1.jpg"/></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Slide 2</div>
+        <div class="ap-field"><label>Badge Text</label><input id="ap_s2badge" value="Smart Learning"/></div>
+        <div class="ap-field"><label>Heading</label><input id="ap_s2h1" value="Building [em]Leaders[/em] of [em]Tomorrow[/em]"/></div>
+        <div class="ap-field"><label>Paragraph</label><textarea id="ap_s2p">Our holistic approach combines academic rigor with sports, arts, and cultural activities to develop well-rounded individuals ready for the future.</textarea></div>
+        <div class="ap-field"><label>Image filename</label><input id="ap_s2img" value="photo2.jpg"/></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Slide 3</div>
+        <div class="ap-field"><label>Badge Text</label><input id="ap_s3badge" value="Admissions Open 2025–26"/></div>
+        <div class="ap-field"><label>Heading</label><input id="ap_s3h1" value="A [em]Safe[/em] &amp; [em]Inspiring[/em] Campus"/></div>
+        <div class="ap-field"><label>Paragraph</label><textarea id="ap_s3p">Modern classrooms, science labs, library, and a nurturing environment where every child is valued, understood, and supported to reach their full potential.</textarea></div>
+        <div class="ap-field"><label>Image filename</label><input id="ap_s3img" value="photo3.jpg"/></div>
+      </div>
+    </div>
+
+    <!-- STATS TAB -->
+    <div class="ap-section" id="ap-stats">
+      <div class="ap-group">
+        <div class="ap-group-title">Stats Bar (4 items)</div>
+        <div id="ap_statsItems"></div>
+        <button class="ap-btn ap-btn-sm ap-btn-blue" onclick="applyStats()">↺ Apply Stats</button>
+      </div>
+    </div>
+
+    <!-- ABOUT TAB -->
+    <div class="ap-section" id="ap-about">
+      <div class="ap-group">
+        <div class="ap-group-title">Home Page About Section</div>
+        <div class="ap-field"><label>Section Label</label><input id="ap_aboutLabel" value="About Our School"/></div>
+        <div class="ap-field"><label>Section Title</label><input id="ap_aboutTitle" value="SRM International School"/></div>
+        <div class="ap-field"><label>Quote / Blockquote</label><textarea id="ap_aboutQuote">"Every child is like a seed which has immense potential to grow and flourish when nurtured with love, care, and the right guidance."</textarea></div>
+        <div class="ap-field"><label>Paragraph 1</label><textarea id="ap_aboutP1">SRM International School is committed to providing quality education that prepares students for a rapidly changing world. Located in the serene town of Sitarganj, Uttarakhand, our institution combines academic excellence with holistic development.</textarea></div>
+        <div class="ap-field"><label>Paragraph 2</label><textarea id="ap_aboutP2">We believe that children must not only excel academically but also cultivate qualities such as courtesy, discipline, confidence, social responsibility, and a deep connection to the cultural values of our nation.</textarea></div>
+        <div class="ap-field"><label>Paragraph 3</label><textarea id="ap_aboutP3">Our state-of-the-art facilities include modern classrooms, science and computer laboratories, a well-stocked library, and ample space for sports and extracurricular activities.</textarea></div>
+        <div class="ap-field"><label>About Image filename</label><input id="ap_aboutImg" value="photo4.jpg"/></div>
+      </div>
+    </div>
+
+    <!-- TOPPERS TAB -->
+    <div class="ap-section" id="ap-toppers">
+      <div class="ap-group">
+        <div class="ap-group-title">Top Rank Students</div>
+        <div id="ap_toppersList"></div>
+        <button class="ap-btn ap-btn-sm ap-btn-green" onclick="addTopper()" style="margin-top:8px;">+ Add Topper</button>
+      </div>
+    </div>
+
+    <!-- FEATURES TAB -->
+    <div class="ap-section" id="ap-features">
+      <div class="ap-group">
+        <div class="ap-group-title">School Highlights / Features</div>
+        <div id="ap_featuresList"></div>
+        <button class="ap-btn ap-btn-sm ap-btn-green" onclick="addFeature()" style="margin-top:8px;">+ Add Feature Card</button>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS TAB -->
+    <div class="ap-section" id="ap-testimonials">
+      <div class="ap-group">
+        <div class="ap-group-title">Text Testimonials</div>
+        <div id="ap_testiList"></div>
+        <button class="ap-btn ap-btn-sm ap-btn-green" onclick="addTesti()" style="margin-top:8px;">+ Add Testimonial</button>
+      </div>
+      <div class="ap-group" style="margin-top:16px;">
+        <div class="ap-group-title">Parent Video Testimonials</div>
+        <div id="ap_videoList"></div>
+        <button class="ap-btn ap-btn-sm ap-btn-green" onclick="addVideo()" style="margin-top:8px;">+ Add Video</button>
+      </div>
+    </div>
+
+    <!-- CONTACT TAB -->
+    <div class="ap-section" id="ap-contact">
+      <div class="ap-group">
+        <div class="ap-group-title">Contact Page</div>
+        <div class="ap-field"><label>Page Hero Title</label><input id="ap_contactHeroTitle" value="Contact Us"/></div>
+        <div class="ap-field"><label>Hero Subtitle</label><input id="ap_contactHeroSub" value="Get in touch with SRM International School for admissions, enquiries, or any information"/></div>
+        <div class="ap-field"><label>Thank You Message (on form submit)</label><textarea id="ap_thankYouMsg">Thank you for your message! We will contact you soon on your provided number.
+
+SRM International School
+📞 9105666000</textarea></div>
+      </div>
+      <div class="ap-group">
+        <div class="ap-group-title">Google Maps Embed</div>
+        <div class="ap-field"><label>Maps Embed URL</label><textarea id="ap_mapsUrl">https://maps.google.com/maps?q=Sitarganj,Uttarakhand,India&t=&z=13&ie=UTF8&iwloc=&output=embed</textarea></div>
+      </div>
+    </div>
+
+    <!-- FOOTER TAB -->
+    <div class="ap-section" id="ap-footer">
+      <div class="ap-group">
+        <div class="ap-group-title">Footer Text</div>
+        <div class="ap-field"><label>About Blurb</label><textarea id="ap_footerAbout">Providing quality CBSE education and nurturing young minds with values, knowledge, and skills for a brighter tomorrow in Sitarganj, Uttarakhand.</textarea></div>
+        <div class="ap-field"><label>Copyright Text</label><input id="ap_copyright" value="© 2026 SRM International School, Sitarganj, Uttarakhand. All Rights Reserved. | CBSE Affiliated School"/></div>
+      </div>
+    </div>
+
+    <!-- MARQUEE TAB -->
+    <div class="ap-section" id="ap-marquee">
+      <div class="ap-group">
+        <div class="ap-group-title">Scrolling Announcement Bar</div>
+        <p style="color:rgba(255,255,255,.5);font-size:12px;margin-bottom:14px;">Each item scrolls across the top of the home page. Use emoji for visual appeal.</p>
+        <div id="ap_marqueeList"></div>
+        <button class="ap-btn ap-btn-sm ap-btn-green" onclick="addMarqueeItem()" style="margin-top:8px;">+ Add Item</button>
+      </div>
+    </div>
+
+  </div><!-- /ap-body -->
+
+  <div class="ap-footer">
+    <button class="ap-apply-all" onclick="applyAllChanges()">✦ Apply All Changes to Website</button>
+    <button class="ap-download" onclick="downloadModifiedHTML()">⬇ Export HTML</button>
+    <button class="ap-logout" onclick="logoutAdmin()">⎋</button>
+  </div>
+</div>
+
+<div class="ap-toast" id="apToast"></div>
+
+<!-- FLOATING SIDE BUTTONS -->
+<div class="float-contact">
+  <a href="tel:9105666000" class="float-btn" id="floatPhone">📞 <span>9105666000</span></a>
+  <a href="https://wa.me/919105666000" class="float-btn float-wa" target="_blank" id="floatWa">💬 <span>WhatsApp Us</span></a>
+</div>
+
+<!-- SCROLL TOP -->
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<!-- TOP BAR -->
+<div class="topbar" id="topbarEl">
+  <div id="topbarAddr">📍 Turka-Tisore, Khatima Road, Sitarganj, U.S. Nagar, Uttarakhand</div>
+  <div>📞 <a href="tel:9105666000" id="topPhone1">9105666000</a> <a href="tel:9690958398" id="topPhone2">9690958398</a> &nbsp;|&nbsp; 💬 <a href="https://wa.me/919105666000" id="topWaLink">WhatsApp</a></div>
+</div>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo-wrap">
+      <img src="35015.jpg" alt="SRM Logo" onerror="this.style.display='none'"/>
+      <div class="logo-text">
+        <strong id="navSchoolName">SRM International School</strong>
+        <span id="navMotto">Learn · Excel · Shine</span>
+      </div>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#" class="active" onclick="showPage('home',this);return false;">Home</a></li>
+      <li><a href="#" onclick="showPage('about',this);return false;">About</a></li>
+      <li><a href="#" onclick="showPage('gallery',this);return false;">Gallery</a></li>
+      <li><a href="#" onclick="showPage('mandatory',this);return false;">Mandatory Public Disclosure</a></li>
+      <li><a href="#" onclick="showPage('contact',this);return false;">Contact</a></li>
+    </ul>
+    <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <div class="logo-wrap">
+      <img src="35015.jpg" alt="" style="height:48px;" onerror="this.style.display='none'"/>
+      <div class="logo-text"><strong id="mobileSchoolName">SRM International School</strong></div>
+    </div>
+    <div class="close-btn" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</div>
+  </div>
+  <ul>
+    <li><a href="#" onclick="showPage('home',null);document.getElementById('mobileMenu').classList.remove('open');return false;">HOME</a></li>
+    <li><a href="#" onclick="showPage('about',null);document.getElementById('mobileMenu').classList.remove('open');return false;">ABOUT</a></li>
+    <li><a href="#" onclick="showPage('gallery',null);document.getElementById('mobileMenu').classList.remove('open');return false;">GALLERY</a></li>
+    <li><a href="#" onclick="showPage('mandatory',null);document.getElementById('mobileMenu').classList.remove('open');return false;">MANDATORY PUBLIC DISCLOSURE</a></li>
+    <li><a href="#" onclick="showPage('contact',null);document.getElementById('mobileMenu').classList.remove('open');return false;">CONTACT</a></li>
+  </ul>
+</div>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+
+<div class="marquee-bar">
+  <div class="marquee-inner" id="marqueeInner">
+    <span>🌟 Welcome to SRM International School – Learn · Excel · Shine</span>
+    <span>📚 CBSE Affiliated School | Nursery to Class XII</span>
+    <span>🏆 Holistic Education for a Brighter Tomorrow</span>
+    <span>📞 Admissions Open – Call: 9105666000 | 9690958398</span>
+    <span>🌟 Welcome to SRM International School – Learn · Excel · Shine</span>
+    <span>📚 CBSE Affiliated School | Nursery to Class XII</span>
+    <span>🏆 Holistic Education for a Brighter Tomorrow</span>
+    <span>📞 Admissions Open – Call: 9105666000 | 9690958398</span>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-slide active" id="slide0">
+    <div class="hero-bg">
+      <img class="hero-bg-img" id="heroImg0" src="photo1.jpg" alt="School" onerror="this.remove()"/>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge" id="heroBadge0">CBSE Affiliated School</div>
+      <h1 id="heroH10">Where <em>Excellence</em> Meets <em>Education</em></h1>
+      <p id="heroP0">SRM International School nurtures young minds with quality education, strong values, and a vibrant learning environment in Sitarganj, Uttarakhand.</p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" id="heroBtn1_0" href="#" onclick="showPage('about',null);return false;">Explore School</a>
+        <a class="btn btn-outline" id="heroBtn2_0" href="tel:9105666000">Enquire Now</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-slide" id="slide1">
+    <div class="hero-bg" style="background:linear-gradient(135deg,rgba(13,63,94,.92),rgba(41,128,185,.6))">
+      <img class="hero-bg-img" id="heroImg1" src="photo2.jpg" alt="" onerror="this.remove()"/>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge" id="heroBadge1">Smart Learning</div>
+      <h1 id="heroH11">Building <em>Leaders</em> of <em>Tomorrow</em></h1>
+      <p id="heroP1">Our holistic approach combines academic rigor with sports, arts, and cultural activities to develop well-rounded individuals ready for the future.</p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="#" onclick="showPage('gallery',null);return false;">View Gallery</a>
+        <a class="btn btn-outline" href="https://wa.me/919105666000" target="_blank">WhatsApp Us</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-slide" id="slide2">
+    <div class="hero-bg" style="background:linear-gradient(135deg,rgba(184,150,46,.85),rgba(13,63,94,.8))">
+      <img class="hero-bg-img" id="heroImg2" src="photo3.jpg" alt="" onerror="this.remove()"/>
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge" id="heroBadge2">Admissions Open 2025–26</div>
+      <h1 id="heroH12">A <em>Safe</em> &amp; <em>Inspiring</em> Campus</h1>
+      <p id="heroP2">Modern classrooms, science labs, library, and a nurturing environment where every child is valued, understood, and supported to reach their full potential.</p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="#" onclick="showPage('contact',null);return false;">Contact Us</a>
+        <a class="btn btn-outline" href="tel:9105666000">Call Now</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots">
+    <span class="active" onclick="goSlide(0)"></span>
+    <span onclick="goSlide(1)"></span>
+    <span onclick="goSlide(2)"></span>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stats-inner" id="statsInner">
+    <div class="stat-item"><div class="stat-num">800+</div><div class="stat-label">Students</div></div>
+    <div class="stat-item"><div class="stat-num">45+</div><div class="stat-label">Expert Faculty</div></div>
+    <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Board Results</div></div>
+    <div class="stat-item"><div class="stat-num">CBSE</div><div class="stat-label">Affiliated</div></div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <div class="about-img-box">
+          <img id="aboutImg" src="photo4.jpg" alt="About SRM" onerror="this.style.display='none'"/>
+        </div>
+        <div class="about-badge">
+          <strong>🏆</strong>
+          <span>Excellence<br>in Education</span>
+        </div>
+      </div>
+      <div>
+        <p class="section-label" id="aboutLabelEl">About Our School</p>
+        <h2 class="section-title" id="aboutTitleEl">SRM International School</h2>
+        <div class="section-line"></div>
+        <div class="about-blockquote" id="aboutQuoteEl">"Every child is like a seed which has immense potential to grow and flourish when nurtured with love, care, and the right guidance."</div>
+        <div class="about-text" id="aboutTextEl">
+          <p id="aboutP1El">SRM International School is committed to providing quality education that prepares students for a rapidly changing world. Located in the serene town of Sitarganj, Uttarakhand, our institution combines academic excellence with holistic development.</p>
+          <p id="aboutP2El">We believe that children must not only excel academically but also cultivate qualities such as courtesy, discipline, confidence, social responsibility, and a deep connection to the cultural values of our nation.</p>
+          <p id="aboutP3El">Our state-of-the-art facilities include modern classrooms, science and computer laboratories, a well-stocked library, and ample space for sports and extracurricular activities.</p>
+        </div>
+        <a class="btn btn-primary" href="#" onclick="showPage('about',null);return false;" style="margin-top:8px;">Read More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="toppers-section">
+  <div class="container">
+    <p class="section-label" style="text-align:center;">Our Students</p>
+    <h2 class="section-title" style="text-align:center;">Top Rank Students</h2>
+    <div class="section-line" style="margin:0 auto 30px;"></div>
+    <div class="toppers-grid" id="toppersGrid">
+      <div class="topper-card">
+        <div class="topper-photo">
+          <img src="topper1.jpg" alt="Topper 1" onerror="this.style.display='none'"/>
+          <div class="topper-badge-top">🥇 1st Rank</div>
+        </div>
+        <div class="topper-info">
+          <div class="topper-score">98%</div>
+          <div class="topper-name">Aaradhy Agarwal</div>
+          <div class="topper-class">Class X</div>
+        </div>
+      </div>
+      <div class="topper-card">
+        <div class="topper-photo">
+          <img src="topper2.jpg" alt="Topper 2" onerror="this.style.display='none'"/>
+          <div class="topper-badge-top">🥈 2nd Rank</div>
+        </div>
+        <div class="topper-info">
+          <div class="topper-score">97.4%</div>
+          <div class="topper-name">Aradhya Gangwar</div>
+          <div class="topper-class">Class X</div>
+        </div>
+      </div>
+      <div class="topper-card">
+        <div class="topper-photo">
+          <img src="topper3.jpg" alt="Topper 3" onerror="this.style.display='none'"/>
+          <div class="topper-badge-top">🥉 3rd Rank</div>
+        </div>
+        <div class="topper-info">
+          <div class="topper-score">97.2%</div>
+          <div class="topper-name">Insha Khan</div>
+          <div class="topper-class">Class X</div>
+        </div>
+      </div>
+      <div class="topper-card">
+        <div class="topper-photo">
+          <img src="topper4.jpg" alt="Topper 4" onerror="this.style.display='none'"/>
+          <div class="topper-badge-top">⭐ 4th Rank</div>
+        </div>
+        <div class="topper-info">
+          <div class="topper-score">97%</div>
+          <div class="topper-name">Tamanna Singhal</div>
+          <div class="topper-class">Class X</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label">School Highlights</p>
+    <h2 class="section-title">Everything You Need to Know</h2>
+    <div class="section-line"></div>
+    <div class="features-grid" id="featuresGrid">
+      <div class="feature-card"><div class="feature-icon-box">📚</div><div class="feature-body"><h3>General Guidelines For Students</h3><p>Every student must carry their school diary, calendar, and identity card to school every day. Dress code and discipline are strictly followed.</p></div></div>
+      <div class="feature-card"><div class="feature-icon-box">⏰</div><div class="feature-body"><h3>School Timing</h3><p>School timing refers to the scheduled hours during which classes are held. Our school operates Monday to Saturday from 8:00 AM to 2:30 PM.</p></div></div>
+      <div class="feature-card"><div class="feature-icon-box">🔬</div><div class="feature-body"><h3>Science Laboratories</h3><p>State-of-the-art science labs equipped with modern instruments for practical, hands-on learning experiences in Physics, Chemistry and Biology.</p></div></div>
+      <div class="feature-card"><div class="feature-icon-box">📖</div><div class="feature-body"><h3>Library at SRM School</h3><p>Library at SRM School: A Space for Learning and Imagination with thousands of books, periodicals, and digital resources for all age groups.</p></div></div>
+      <div class="feature-card"><div class="feature-icon-box">🏅</div><div class="feature-body"><h3>Sports &amp; Activities</h3><p>Comprehensive sports program including cricket, football, athletics, badminton, and various indoor games to promote physical fitness.</p></div></div>
+      <div class="feature-card"><div class="feature-icon-box">💻</div><div class="feature-body"><h3>Computer Laboratory</h3><p>Modern computer laboratory with high-speed internet connectivity to prepare students with essential digital skills for the 21st century.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials-section">
+  <div class="container">
+    <p class="section-label">Our Testimonial</p>
+    <h2 class="section-title">Parents and Former Students Say</h2>
+    <div class="section-line"></div>
+    <div class="testi-wrapper">
+      <div class="testi-track" id="testiTrack" style="gap:16px;">
+        <div class="testi-card"><div class="testi-avatar">R</div><div class="testi-name">Rajesh Kumar</div><div class="testi-role">Parent</div><div class="testi-text">SRM International School has been a transformative experience for my child. The teachers are dedicated and the school provides an excellent environment for overall development. Highly recommended!</div><div class="stars">★★★★★ &nbsp;<em style="font-size:13px;color:var(--gold);font-style:normal;font-weight:800;">Excellent!!</em></div></div>
+        <div class="testi-card"><div class="testi-avatar">P</div><div class="testi-name">Priya Singh</div><div class="testi-role">Parent</div><div class="testi-text">The school maintains high academic standards while also focusing on the overall personality development of students. The faculty is experienced and caring. My daughter loves going to school every day.</div><div class="stars">★★★★★ &nbsp;<em style="font-size:13px;color:var(--gold);font-style:normal;font-weight:800;">Excellent!!</em></div></div>
+        <div class="testi-card"><div class="testi-avatar">A</div><div class="testi-name">Ankit Sharma</div><div class="testi-role">Former Student</div><div class="testi-text">My years at SRM International School were the best years of my academic life. The education I received here laid a strong foundation for my career. The values instilled here guide me even today.</div><div class="stars">★★★★★ &nbsp;<em style="font-size:13px;color:var(--gold);font-style:normal;font-weight:800;">Excellent!!</em></div></div>
+        <div class="testi-card"><div class="testi-avatar">S</div><div class="testi-name">Sunita Devi</div><div class="testi-role">Parent</div><div class="testi-text">Excellent school with great infrastructure. The management is very responsive and the teachers genuinely care about each student's progress. The school truly lives up to its motto – Learn, Excel, Shine!</div><div class="stars">★★★★★ &nbsp;<em style="font-size:13px;color:var(--gold);font-style:normal;font-weight:800;">Excellent!!</em></div></div>
+      </div>
+    </div>
+    <div class="testi-nav" id="testiNav">
+      <div class="testi-dot active" onclick="goTesti(0)"></div>
+      <div class="testi-dot" onclick="goTesti(1)"></div>
+      <div class="testi-dot" onclick="goTesti(2)"></div>
+      <div class="testi-dot" onclick="goTesti(3)"></div>
+    </div>
+    <div class="parent-video-section">
+      <h2 style="text-align:center;color:#fff;margin:50px 0 25px;font-family:'Playfair Display',serif;">Parents Feedback Videos</h2>
+      <div class="parent-video-grid" id="videoGrid">
+        <div class="video-card"><video controls><source src="video1.mp4" type="video/mp4">Your browser does not support the video tag.</video><div class="video-info"><p>Parent of Mohd.Fazil (Class V)</p><small>Highly Satisfied with Academic Progress</small></div></div>
+        <div class="video-card"><video controls><source src="video2.mp4" type="video/mp4">Your browser does not support the video tag.</video><div class="video-info"><p>Parent of Aarna Agarwal (Class III)</p><small>Excellent Teachers &amp; Environment</small></div></div>
+        <div class="video-card"><video controls><source src="video3.mp4" type="video/mp4">Your browser does not support the video tag.</video><div class="video-info"><p>Parent of Riddham Arora (Class VIII)</p><small>Best Decision to Choose SRM</small></div></div>
+        <div class="video-card"><video controls><source src="video4.mp4" type="video/mp4">Your browser does not support the video tag.</video><div class="video-info"><p>Parent of Mannat Kaur (Class II)</p><small>Great Focus on Overall Development</small></div></div>
+        <div class="video-card"><video controls><source src="video5.mp4" type="video/mp4">Your browser does not support the video tag.</video><div class="video-info"><p>Parent of Arjun Prakash (Class X)</p><small>Very Happy with School Facilities</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="section-label">Our Gallery</p>
+    <h2 class="section-title">School Life in Pictures</h2>
+    <div class="section-line"></div>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="photo1.jpg" alt="School Event" onerror="this.src='https://via.placeholder.com/600x400/1B5C8A/ffffff?text=School+Photo+1';"></div>
+      <div class="gallery-item"><img src="photo2.jpg" alt="School Event" onerror="this.src='https://via.placeholder.com/600x400/B8962E/ffffff?text=School+Photo+2';"></div>
+      <div class="gallery-item"><img src="photo3.jpg" alt="School Event" onerror="this.src='https://via.placeholder.com/600x400/28a745/ffffff?text=School+Photo+3';"></div>
+      <div class="gallery-item"><img src="photo4.jpg" alt="School Event" onerror="this.src='https://via.placeholder.com/600x400/2980B9/ffffff?text=School+Photo+4';"></div>
+      <div class="gallery-item"><img src="photo5.jpg" alt="School Event" onerror="this.src='https://via.placeholder.com/600x400/D4AF37/ffffff?text=School+Photo+5';"></div>
+      <div class="gallery-item"><img src="photo6.jpg" alt="School Event" onerror="this.src='https://via.placeholder.com/600x400/0d3d5e/ffffff?text=School+Photo+6';"></div>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+      <a class="btn btn-primary" href="#" onclick="showPage('gallery',null);return false;">View Full Gallery →</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+<div class="page-hero">
+  <h1>About SRM International School</h1>
+  <p>Our mission, vision, values, and the journey that drives us to deliver excellence in education</p>
+</div>
+<section>
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <p class="section-label">Our Story</p>
+        <h2 class="section-title">A Journey Towards Excellence</h2>
+        <div class="section-line"></div>
+        <div class="about-blockquote">"Every child is like a seed which has the potential to grow into a magnificent tree with the right care and nurturing."</div>
+        <div class="about-text">
+          <p>SRM International School was established with a vision to provide quality education that is accessible, affordable, and focused on the all-round development of every student. Located in the serene town of Sitarganj in Uttarakhand, we have been shaping young minds with dedication and passion.</p>
+          <p>Our school is affiliated with the Central Board of Secondary Education (CBSE) and offers classes from Nursery through Class XII. We combine modern pedagogical methods with time-tested values to create an environment where every child can thrive.</p>
+          <p>At SRM, we believe that education is not just about textbooks and examinations. It encompasses the development of character, creativity, critical thinking, and compassion. Our curriculum is designed to prepare students for the challenges of tomorrow while keeping them rooted in the rich cultural traditions of our nation.</p>
+        </div>
+      </div>
+      <div class="about-img-wrap">
+        <div class="about-img-box" style="height:380px;">
+          <img src="photo5.jpg" alt="About" onerror="this.style.display='none'"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- GALLERY PAGE -->
+<div class="page" id="page-gallery">
+  <div class="page-hero">
+    <h1>Our Gallery</h1>
+    <p>A glimpse into the vibrant life at SRM International School, Sitarganj</p>
+  </div>
+  <section>
+    <div class="container">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;padding:20px 0;">
+        <div class="gallery-item"><img src="photo1.jpg" alt="School Event 1" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+1';"></div>
+        <div class="gallery-item"><img src="photo2.jpg" alt="School Event 2" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+2';"></div>
+        <div class="gallery-item"><img src="photo3.jpg" alt="School Event 3" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+3';"></div>
+        <div class="gallery-item"><img src="photo4.jpg" alt="School Event 4" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+4';"></div>
+        <div class="gallery-item"><img src="photo5.jpg" alt="School Event 5" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+5';"></div>
+        <div class="gallery-item"><img src="photo6.jpg" alt="School Event 6" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+6';"></div>
+        <div class="gallery-item"><img src="photo7.jpg" alt="School Event 7" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+7';"></div>
+        <div class="gallery-item"><img src="photo8.jpg" alt="School Event 8" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+8';"></div>
+        <div class="gallery-item"><img src="photo9.jpg" alt="School Event 9" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+9';"></div>
+        <div class="gallery-item"><img src="photo10.jpg" alt="School Event 10" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+10';"></div>
+        <div class="gallery-item"><img src="photo11.jpg" alt="School Event 11" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+11';"></div>
+        <div class="gallery-item"><img src="photo12.jpg" alt="School Event 12" onerror="this.src='https://via.placeholder.com/600x400?text=Photo+12';"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MANDATORY PUBLIC DISCLOSURE -->
+<div class="page" id="page-mandatory">
+  <div class="page-hero">
+    <h1>Mandatory Public Disclosure</h1>
+    <p>As per CBSE Appendix-IX Guidelines</p>
+  </div>
+  <section style="padding:40px 20px;">
+    <div class="container" style="max-width:1100px;">
+      <h2 style="color:var(--blue-dark);margin:30px 0 15px;">A. GENERAL INFORMATION</h2>
+      <table class="mpd-table">
+        <thead><tr><th>SL NO.</th><th>INFORMATION</th><th>DETAILS</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>NAME OF THE SCHOOL</td><td id="mpd_name">SRM International School</td></tr>
+          <tr><td>2</td><td>AFFILIATION NO.</td><td id="mpd_aff">3530668</td></tr>
+          <tr><td>3</td><td>SCHOOL CODE</td><td id="mpd_code">80124</td></tr>
+          <tr><td>4</td><td>COMPLETE ADDRESS WITH PIN CODE</td><td id="mpd_addr">Turka-Tisore, Khatima Road, Sitarganj, U.S. Nagar, Uttarakhand - 262405</td></tr>
+          <tr><td>5</td><td>PRINCIPAL NAME &amp; QUALIFICATION</td><td id="mpd_principal">Mrs.Neeru Singh, M.A ,M.ED</td></tr>
+          <tr><td>6</td><td>SCHOOL EMAIL ID</td><td id="mpd_email">SRMINTSTG@gmail.com</td></tr>
+          <tr><td>7</td><td>CONTACT DETAILS</td><td id="mpd_contact">9105666000, 9690958398</td></tr>
+        </tbody>
+      </table>
+      <h2 style="color:var(--blue-dark);margin:40px 0 15px;">B. DOCUMENTS AND INFORMATION</h2>
+      <table class="mpd-table">
+        <thead><tr><th>SL NO.</th><th>DOCUMENTS / INFORMATION</th><th>UPLOAD DOCUMENTS</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>COPIES OF AFFILIATION LETTER</td><td><a href="cbse-affiliation-letter.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>2</td><td>SOCIETY REGISTRATION CERTIFICATE</td><td><a href="srm-society-registration.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>3</td><td>NO OBJECTION CERTIFICATE (NOC) BY STATE GOVT.</td><td><a href="noc-state-government.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>4</td><td>BUILDING SAFETY CERTIFICATE</td><td><a href="building-safety-certificate.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>5</td><td>FIRE SAFETY CERTIFICATE</td><td><a href="fire-noc.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>6</td><td>DRINKING WATER &amp; SANITATION CERTIFICATE</td><td><a href="drinking-water-sanitation.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>7</td><td>FEE STRUCTURE</td><td><a href="fee-structure.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>8</td><td>ACADEMIC CALENDAR</td><td><a href="academic-calendar.pdf" target="_blank" class="view-link">View</a></td></tr>
+        </tbody>
+      </table>
+      <h2 style="color:var(--blue-dark);margin:40px 0 15px;">C. RESULTS AND ACADEMICS</h2>
+      <table class="mpd-table">
+        <thead><tr><th>SL NO.</th><th>INFORMATION</th><th>DOCUMENTS</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>FEE STRUCTURE</td><td><a href="fee-structure.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>2</td><td>ANNUAL ACADEMIC CALENDAR</td><td><a href="academic-calendar.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>3</td><td>LIST OF SCHOOL MANAGEMENT COMMITTEE (SMC)</td><td><a href="smc-members-list.pdf" target="_blank" class="view-link">View</a></td></tr>
+          <tr><td>4</td><td>LIST OF PTA MEMBERS</td><td><a href="pta-members.pdf" target="_blank" class="view-link">View</a></td></tr>
+        </tbody>
+      </table>
+      <h2 style="color:var(--blue-dark);margin:40px 0 15px;">D. STAFF (TEACHING)</h2>
+      <table class="mpd-table">
+        <thead><tr><th>SL NO.</th><th>INFORMATION</th><th>DETAILS</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>PRINCIPAL</td><td id="mpd_principalName">Mrs. Neeru Singh</td></tr>
+          <tr><td>2</td><td>TOTAL NO. OF TEACHERS</td><td>45+</td></tr>
+          <tr><td></td><td>· PGT</td><td>12</td></tr>
+          <tr><td></td><td>· TGT</td><td>18</td></tr>
+          <tr><td></td><td>· PRT</td><td>15</td></tr>
+          <tr><td>3</td><td>TEACHERS SECTION RATIO</td><td>1:1.5</td></tr>
+          <tr><td>4</td><td>DETAILS OF SPECIAL EDUCATOR</td><td>1</td></tr>
+          <tr><td>5</td><td>DETAILS OF COUNSELLOR AND WELLNESS TEACHER</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <h2 style="color:var(--blue-dark);margin:40px 0 15px;">E. SCHOOL INFRASTRUCTURE</h2>
+      <table class="mpd-table">
+        <thead><tr><th>SL NO.</th><th>INFORMATION</th><th>DETAILS</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>TOTAL CAMPUS AREA OF THE SCHOOL (IN SQUARE MTR)</td><td>6570 Sq. Mtr.</td></tr>
+          <tr><td>2</td><td>NO. AND SIZE OF THE CLASS ROOMS (IN SQ MTR)</td><td>25 Classrooms, 49.41 Sq. Mtr. Each</td></tr>
+          <tr><td>3</td><td>NO. AND SIZE OF LABORATORIES INCLUDING COMPUTER LABS (IN SQ MTR)</td><td>5 Labs, 56 Sq. Mtr. Each</td></tr>
+          <tr><td>4</td><td>INTERNET FACILITY (Y/N)</td><td>YES</td></tr>
+          <tr><td>5</td><td>NO. OF GIRLS TOILETS</td><td>12</td></tr>
+          <tr><td>6</td><td>NO. OF BOYS TOILETS</td><td>12</td></tr>
+          <tr><td>7</td><td>LINK OF YOUTUBE VIDEO OF THE INSPECTION OF SCHOOL COVERING THE INFRASTRUCTURE OF THE SCHOOL</td><td><a href="#" target="_blank" class="view-link">View Video</a></td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:40px;padding:20px;background:#fff3cd;border:1px solid #ffc107;border-radius:10px;font-size:14px;">
+        <strong>Note:</strong> All documents are uploaded as per CBSE guidelines. For physical copies or queries, contact the school office at 9105666000.
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+<div class="page-hero">
+  <h1 id="contactHeroTitleEl">Contact Us</h1>
+  <p id="contactHeroSubEl">Get in touch with SRM International School for admissions, enquiries, or any information</p>
+</div>
+<section>
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <p class="section-label">Get In Touch</p>
+        <h2 class="section-title">We'd Love to Hear From You</h2>
+        <div class="section-line"></div>
+        <div class="contact-item">
+          <div class="ico">📍</div>
+          <div class="contact-item-text">
+            <p>Address</p>
+            <p id="contactAddrEl">Turka-Tisore, Khatima Road,<br>Sitarganj, U.S. Nagar, Uttarakhand</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ico">📞</div>
+          <div class="contact-item-text">
+            <p>Phone</p>
+            <p><a href="tel:9105666000" id="contactPhone1El">9105666000</a> &nbsp;|&nbsp; <a href="tel:9690958398" id="contactPhone2El">9690958398</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ico">💬</div>
+          <div class="contact-item-text">
+            <p>WhatsApp</p>
+            <p><a href="https://wa.me/919105666000" id="contactWa1" target="_blank" style="color:var(--green);">9105666000</a> &nbsp;|&nbsp; <a href="https://wa.me/919690958398" id="contactWa2" target="_blank" style="color:var(--green);">9690958398</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ico">⏰</div>
+          <div class="contact-item-text">
+            <p>School Hours</p>
+            <p id="contactHoursEl">Monday – Saturday: 8:00 AM – 2:30 PM</p>
+          </div>
+        </div>
+        <div style="margin-top:24px;">
+          <p style="font-weight:800;color:var(--blue-dark);margin-bottom:14px;font-size:15px;">Follow Us</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a id="ctInsta" href="https://www.instagram.com/srminternationalstg?igsh=MXIyeG9iZXo0cnFhbA==" target="_blank" class="btn btn-primary" style="background:#E1306C;border-color:#E1306C;padding:10px 18px;font-size:13px;">📸 Instagram</a>
+            <a id="ctFb" href="https://www.facebook.com/share/1KWbaGspHx/" target="_blank" class="btn btn-primary" style="background:#1877F2;border-color:#1877F2;padding:10px 18px;font-size:13px;">👍 Facebook</a>
+            <a id="ctYt" href="https://youtube.com/@srminternationalstg?si=JcnIzV6kVH3-DxV3" target="_blank" class="btn btn-primary" style="background:#FF0000;border-color:#FF0000;padding:10px 18px;font-size:13px;">▶️ YouTube</a>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--off-white);padding:36px;border-radius:16px;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--blue-dark);margin-bottom:22px;">Send Us a Message</h3>
+        <input class="form-input" type="text" placeholder="Your Full Name"/>
+        <input class="form-input" type="tel" placeholder="Phone Number"/>
+        <input class="form-input" type="email" placeholder="Email Address (optional)"/>
+        <select class="form-input" style="color:var(--text);background:#fff;">
+          <option value="">Select Enquiry Type</option>
+          <option>Admission Enquiry</option>
+          <option>Fee Structure</option>
+          <option>Transport Facility</option>
+          <option>Other</option>
+        </select>
+        <textarea class="form-input" placeholder="Your Message" rows="4" style="resize:none;"></textarea>
+        <button class="btn btn-primary" id="contactFormBtn" style="width:100%;font-size:15px;padding:14px;" onclick="handleContactForm()">Send Message 📨</button>
+      </div>
+    </div>
+    <div style="margin-top:48px;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);height:340px;">
+      <iframe id="mapsIframe" src="https://maps.google.com/maps?q=Sitarganj,Uttarakhand,India&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" title="SRM International School Location"></iframe>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo-wrap">
+        <img src="35015.jpg" alt="SRM Logo" style="height:50px;" onerror="this.style.display='none'"/>
+        <div class="logo-text">
+          <strong id="footerSchoolName" style="color:#fff;">SRM International School</strong>
+          <span id="footerMotto" style="color:var(--gold-light);">Learn · Excel · Shine</span>
+        </div>
+      </div>
+      <p id="footerAboutEl">Providing quality CBSE education and nurturing young minds with values, knowledge, and skills for a brighter tomorrow in Sitarganj, Uttarakhand.</p>
+      <div class="social-links">
+        <a class="social-link" id="footerInsta" href="https://www.instagram.com/srminternationalstg?igsh=MXIyeG9iZXo0cnFhbA==" target="_blank">📸</a>
+        <a class="social-link" id="footerFb" href="https://www.facebook.com/share/1KWbaGspHx/" target="_blank">👍</a>
+        <a class="social-link" id="footerYt" href="https://youtube.com/@srminternationalstg?si=JcnIzV6kVH3-DxV3" target="_blank">▶️</a>
+        <a class="social-link" id="footerWa" href="https://wa.me/919105666000" target="_blank">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a onclick="showPage('home',null);return false;" href="#">Home</a></li>
+        <li><a onclick="showPage('about',null);return false;" href="#">About</a></li>
+        <li><a onclick="showPage('gallery',null);return false;" href="#">Gallery</a></li>
+        <li><a onclick="showPage('mandatory',null);return false;" href="#">Mandatory Public Disclosure</a></li>
+        <li><a onclick="showPage('contact',null);return false;" href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Our Address</h4>
+      <div class="footer-contact-item"><span class="ico">📍</span><p id="footerAddr">Turka-Tisore, Khatima Road, Sitarganj, U.S. Nagar, Uttarakhand</p></div>
+      <div class="footer-contact-item"><span class="ico">📞</span><p><a href="tel:9105666000" id="footerPhone1">9105666000</a><br/><a href="tel:9690958398" id="footerPhone2">9690958398</a></p></div>
+      <div class="footer-contact-item"><span class="ico">⏰</span><p id="footerHours">Mon – Sat: 8:00 AM – 2:30 PM</p></div>
+    </div>
+  </div>
+  <div class="footer-bottom" id="footerCopyright">© 2026 SRM International School, Sitarganj, Uttarakhand. All Rights Reserved. | CBSE Affiliated School</div>
+</footer>
+
+<script>
+// ==========================================
+// ADMIN CONFIG
+// ==========================================
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'srm@2025'; // Change this password
+
+// ==========================================
+// PAGE ROUTING
+// ==========================================
+function showPage(name, clickedEl){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('#navLinks a').forEach(a=>a.classList.remove('active'));
+  if(clickedEl) clickedEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  return false;
+}
+
+// ==========================================
+// HERO SLIDER
+// ==========================================
+var currentSlide=0;
+var slides=document.querySelectorAll('.hero-slide');
+var heroDots=document.querySelectorAll('.hero-dots span');
+function goSlide(n){
+  slides[currentSlide].classList.remove('active');
+  heroDots[currentSlide].classList.remove('active');
+  currentSlide=n;
+  slides[currentSlide].classList.add('active');
+  heroDots[currentSlide].classList.add('active');
+}
+setInterval(function(){goSlide((currentSlide+1)%slides.length);},5500);
+
+// ==========================================
+// TESTIMONIAL SLIDER
+// ==========================================
+var currentTesti=0;
+var testiTrack=document.getElementById('testiTrack');
+function goTesti(n){
+  currentTesti=n;
+  var isMobile=window.innerWidth<640;
+  var pct=isMobile?100:50;
+  testiTrack.style.transform='translateX(-'+((n*pct)+(n>0?n*4:0))+'%)';
+  document.querySelectorAll('.testi-dot').forEach(function(d,i){d.classList.toggle('active',i===n);});
+}
+setInterval(function(){goTesti((currentTesti+1)%document.querySelectorAll('.testi-card').length);},5000);
+window.addEventListener('resize',function(){goTesti(currentTesti);});
+
+// ==========================================
+// SCROLL TOP
+// ==========================================
+window.addEventListener('scroll',function(){
+  document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>300);
+});
+
+// ==========================================
+// CONTACT FORM
+// ==========================================
+var thankYouMsg = 'Thank you for your message! We will contact you soon on your provided number.\n\nSRM International School\n📞 9105666000';
+function handleContactForm(){
+  alert(thankYouMsg);
+}
+
+// ==========================================
+// ADMIN DATA STORE
+// ==========================================
+var adminData = {
+  stats: [
+    {num:'800+', label:'Students'},
+    {num:'45+', label:'Expert Faculty'},
+    {num:'100%', label:'Board Results'},
+    {num:'CBSE', label:'Affiliated'}
+  ],
+  toppers: [
+    {badge:'🥇 1st Rank', score:'98%', name:'Aaradhy Agarwal', cls:'Class X', img:'topper1.jpg'},
+    {badge:'🥈 2nd Rank', score:'97.4%', name:'Aradhya Gangwar', cls:'Class X', img:'topper2.jpg'},
+    {badge:'🥉 3rd Rank', score:'97.2%', name:'Insha Khan', cls:'Class X', img:'topper3.jpg'},
+    {badge:'⭐ 4th Rank', score:'97%', name:'Tamanna Singhal', cls:'Class X', img:'topper4.jpg'}
+  ],
+  features: [
+    {icon:'📚', title:'General Guidelines For Students', desc:'Every student must carry their school diary, calendar, and identity card to school every day. Dress code and discipline are strictly followed.'},
+    {icon:'⏰', title:'School Timing', desc:'School timing refers to the scheduled hours during which classes are held. Our school operates Monday to Saturday from 8:00 AM to 2:30 PM.'},
+    {icon:'🔬', title:'Science Laboratories', desc:'State-of-the-art science labs equipped with modern instruments for practical, hands-on learning experiences in Physics, Chemistry and Biology.'},
+    {icon:'📖', title:'Library at SRM School', desc:'Library at SRM School: A Space for Learning and Imagination with thousands of books, periodicals, and digital resources for all age groups.'},
+    {icon:'🏅', title:'Sports & Activities', desc:'Comprehensive sports program including cricket, football, athletics, badminton, and various indoor games to promote physical fitness.'},
+    {icon:'💻', title:'Computer Laboratory', desc:'Modern computer laboratory with high-speed internet connectivity to prepare students with essential digital skills for the 21st century.'}
+  ],
+  testimonials: [
+    {name:'Rajesh Kumar', role:'Parent', text:'SRM International School has been a transformative experience for my child. The teachers are dedicated and the school provides an excellent environment for overall development. Highly recommended!'},
+    {name:'Priya Singh', role:'Parent', text:'The school maintains high academic standards while also focusing on the overall personality development of students. The faculty is experienced and caring. My daughter loves going to school every day.'},
+    {name:'Ankit Sharma', role:'Former Student', text:'My years at SRM International School were the best years of my academic life. The education I received here laid a strong foundation for my career. The values instilled here guide me even today.'},
+    {name:'Sunita Devi', role:'Parent', text:'Excellent school with great infrastructure. The management is very responsive and the teachers genuinely care about each student\'s progress. The school truly lives up to its motto – Learn, Excel, Shine!'}
+  ],
+  videos: [
+    {src:'video1.mp4', label:'Parent of Mohd.Fazil (Class V)', sub:'Highly Satisfied with Academic Progress'},
+    {src:'video2.mp4', label:'Parent of Aarna Agarwal (Class III)', sub:'Excellent Teachers & Environment'},
+    {src:'video3.mp4', label:'Parent of Riddham Arora (Class VIII)', sub:'Best Decision to Choose SRM'},
+    {src:'video4.mp4', label:'Parent of Mannat Kaur (Class II)', sub:'Great Focus on Overall Development'},
+    {src:'video5.mp4', label:'Parent of Arjun Prakash (Class X)', sub:'Very Happy with School Facilities'}
+  ],
+  marquee: [
+    '🌟 Welcome to SRM International School – Learn · Excel · Shine',
+    '📚 CBSE Affiliated School | Nursery to Class XII',
+    '🏆 Holistic Education for a Brighter Tomorrow',
+    '📞 Admissions Open – Call: 9105666000 | 9690958398'
+  ]
+};
+
+// ==========================================
+// ADMIN LOGIN
+// ==========================================
+var adminLoggedIn = false;
+
+// ---- SECRET TRIGGER 1: Type "srm" anywhere on the page ----
+var secretBuffer = '';
+var secretCode = 'srm';
+document.addEventListener('keydown', function(e){
+  secretBuffer += e.key.toLowerCase();
+  if(secretBuffer.length > secretCode.length) secretBuffer = secretBuffer.slice(-secretCode.length);
+  if(secretBuffer === secretCode){ secretBuffer = ''; openAdminLogin(); }
+});
+
+// ---- SECRET TRIGGER 2: Click the school logo 5 times fast ----
+var logoClickCount = 0;
+var logoClickTimer = null;
+document.querySelectorAll('.logo-wrap').forEach(function(logo){
+  logo.addEventListener('click', function(e){
+    logoClickCount++;
+    clearTimeout(logoClickTimer);
+    logoClickTimer = setTimeout(function(){ logoClickCount = 0; }, 2000);
+    if(logoClickCount >= 5){ logoClickCount = 0; openAdminLogin(); }
+  });
+});
+
+function openAdminLogin(){
+  if(adminLoggedIn){ openAdminPanel(); return; }
+  document.getElementById('adminLoginOverlay').classList.add('open');
+  document.getElementById('loginUser').focus();
+}
+function closeAdminLogin(){
+  document.getElementById('adminLoginOverlay').classList.remove('open');
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+function doLogin(){
+  var u = document.getElementById('loginUser').value.trim();
+  var p = document.getElementById('loginPass').value.trim();
+  if(u === ADMIN_USER && p === ADMIN_PASS){
+    adminLoggedIn = true;
+    closeAdminLogin();
+    openAdminPanel();
+  } else {
+    document.getElementById('loginError').style.display='block';
+  }
+}
+function logoutAdmin(){
+  adminLoggedIn = false;
+  document.getElementById('adminPanel').classList.remove('open');
+  showToast('Logged out successfully');
+}
+
+// ==========================================
+// ADMIN PANEL
+// ==========================================
+function openAdminPanel(){
+  document.getElementById('adminPanel').classList.add('open');
+  initAdminForms();
+}
+function closeAdminPanel(){
+  document.getElementById('adminPanel').classList.remove('open');
+}
+
+function switchTab(name){
+  document.querySelectorAll('.ap-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ap-section').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('ap-'+name).classList.add('active');
+}
+
+function showToast(msg, isError){
+  var t = document.getElementById('apToast');
+  t.textContent = (isError ? '❌ ' : '✅ ') + msg;
+  t.style.background = isError ? '#e53e3e' : '#38a169';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ==========================================
+// INIT ADMIN FORMS (dynamic sections)
+// ==========================================
+function initAdminForms(){
+  renderStatsAdmin();
+  renderToppersAdmin();
+  renderFeaturesAdmin();
+  renderTestiAdmin();
+  renderVideoAdmin();
+  renderMarqueeAdmin();
+}
+
+// STATS
+function renderStatsAdmin(){
+  var c = document.getElementById('ap_statsItems');
+  c.innerHTML = '';
+  adminData.stats.forEach(function(s, i){
+    c.innerHTML += `
+      <div class="ap-item">
+        <div class="ap-item-header"><span>Stat ${i+1}</span></div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Number/Value</label><input id="stat_num_${i}" value="${s.num}" oninput="adminData.stats[${i}].num=this.value"/></div>
+          <div class="ap-field"><label>Label</label><input id="stat_lbl_${i}" value="${s.label}" oninput="adminData.stats[${i}].label=this.value"/></div>
+        </div>
+      </div>`;
+  });
+}
+
+function applyStats(){
+  var html = adminData.stats.map(function(s){
+    return `<div class="stat-item"><div class="stat-num">${s.num}</div><div class="stat-label">${s.label}</div></div>`;
+  }).join('');
+  document.getElementById('statsInner').innerHTML = html;
+  showToast('Stats updated!');
+}
+
+// TOPPERS
+function renderToppersAdmin(){
+  var c = document.getElementById('ap_toppersList');
+  c.innerHTML = '';
+  adminData.toppers.forEach(function(t, i){
+    c.innerHTML += `
+      <div class="ap-item" id="topper_item_${i}">
+        <div class="ap-item-header">
+          <span>Topper ${i+1}</span>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" onclick="removeTopper(${i})">✕ Remove</button>
+        </div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Score/Percentage</label><input value="${t.score}" oninput="adminData.toppers[${i}].score=this.value"/></div>
+          <div class="ap-field"><label>Badge (e.g. 🥇 1st Rank)</label><input value="${t.badge}" oninput="adminData.toppers[${i}].badge=this.value"/></div>
+        </div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Student Name</label><input value="${t.name}" oninput="adminData.toppers[${i}].name=this.value"/></div>
+          <div class="ap-field"><label>Class</label><input value="${t.cls}" oninput="adminData.toppers[${i}].cls=this.value"/></div>
+        </div>
+        <div class="ap-field"><label>Photo filename</label><input value="${t.img}" oninput="adminData.toppers[${i}].img=this.value"/></div>
+      </div>`;
+  });
+}
+function addTopper(){
+  adminData.toppers.push({badge:'⭐ Rank', score:'95%', name:'Student Name', cls:'Class X', img:'topper.jpg'});
+  renderToppersAdmin();
+}
+function removeTopper(i){
+  adminData.toppers.splice(i,1);
+  renderToppersAdmin();
+}
+
+// FEATURES
+function renderFeaturesAdmin(){
+  var c = document.getElementById('ap_featuresList');
+  c.innerHTML = '';
+  adminData.features.forEach(function(f, i){
+    c.innerHTML += `
+      <div class="ap-item">
+        <div class="ap-item-header">
+          <span>${f.title || 'Feature '+i}</span>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" onclick="removeFeature(${i})">✕ Remove</button>
+        </div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Icon (emoji)</label><input value="${f.icon}" oninput="adminData.features[${i}].icon=this.value"/></div>
+          <div class="ap-field"><label>Title</label><input value="${f.title}" oninput="adminData.features[${i}].title=this.value"/></div>
+        </div>
+        <div class="ap-field"><label>Description</label><textarea oninput="adminData.features[${i}].desc=this.value">${f.desc}</textarea></div>
+      </div>`;
+  });
+}
+function addFeature(){
+  adminData.features.push({icon:'🎯', title:'New Feature', desc:'Description of this feature goes here.'});
+  renderFeaturesAdmin();
+}
+function removeFeature(i){
+  adminData.features.splice(i,1);
+  renderFeaturesAdmin();
+}
+
+// TESTIMONIALS
+function renderTestiAdmin(){
+  var c = document.getElementById('ap_testiList');
+  c.innerHTML = '';
+  adminData.testimonials.forEach(function(t, i){
+    c.innerHTML += `
+      <div class="ap-item">
+        <div class="ap-item-header">
+          <span>${t.name}</span>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" onclick="removeTesti(${i})">✕ Remove</button>
+        </div>
+        <div class="ap-row">
+          <div class="ap-field"><label>Name</label><input value="${t.name}" oninput="adminData.testimonials[${i}].name=this.value"/></div>
+          <div class="ap-field"><label>Role (Parent/Student)</label><input value="${t.role}" oninput="adminData.testimonials[${i}].role=this.value"/></div>
+        </div>
+        <div class="ap-field"><label>Review Text</label><textarea oninput="adminData.testimonials[${i}].text=this.value">${t.text}</textarea></div>
+      </div>`;
+  });
+}
+function addTesti(){
+  adminData.testimonials.push({name:'New Person', role:'Parent', text:'Great school with excellent faculty.'});
+  renderTestiAdmin();
+}
+function removeTesti(i){
+  adminData.testimonials.splice(i,1);
+  renderTestiAdmin();
+}
+
+// VIDEOS
+function renderVideoAdmin(){
+  var c = document.getElementById('ap_videoList');
+  c.innerHTML = '';
+  adminData.videos.forEach(function(v, i){
+    c.innerHTML += `
+      <div class="ap-item">
+        <div class="ap-item-header">
+          <span>Video ${i+1}</span>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" onclick="removeVideo(${i})">✕ Remove</button>
+        </div>
+        <div class="ap-field"><label>Video filename (e.g. video1.mp4)</label><input value="${v.src}" oninput="adminData.videos[${i}].src=this.value"/></div>
+        <div class="ap-field"><label>Label (Parent name &amp; class)</label><input value="${v.label}" oninput="adminData.videos[${i}].label=this.value"/></div>
+        <div class="ap-field"><label>Sub-label</label><input value="${v.sub}" oninput="adminData.videos[${i}].sub=this.value"/></div>
+      </div>`;
+  });
+}
+function addVideo(){
+  adminData.videos.push({src:'video.mp4', label:'Parent Name (Class)', sub:'Feedback description'});
+  renderVideoAdmin();
+}
+function removeVideo(i){
+  adminData.videos.splice(i,1);
+  renderVideoAdmin();
+}
+
+// MARQUEE
+function renderMarqueeAdmin(){
+  var c = document.getElementById('ap_marqueeList');
+  c.innerHTML = '';
+  adminData.marquee.forEach(function(m, i){
+    c.innerHTML += `
+      <div class="ap-item">
+        <div class="ap-item-header">
+          <span>Item ${i+1}</span>
+          <button class="ap-btn ap-btn-danger ap-btn-sm" onclick="removeMarqueeItem(${i})">✕ Remove</button>
+        </div>
+        <div class="ap-field"><label>Text</label><input value="${m}" oninput="adminData.marquee[${i}]=this.value"/></div>
+      </div>`;
+  });
+}
+function addMarqueeItem(){
+  adminData.marquee.push('📢 New Announcement Here');
+  renderMarqueeAdmin();
+}
+function removeMarqueeItem(i){
+  adminData.marquee.splice(i,1);
+  renderMarqueeAdmin();
+}
+
+// ==========================================
+// APPLY ALL CHANGES
+// ==========================================
+function applyAllChanges(){
+  try {
+    var phone1 = document.getElementById('ap_phone1').value.trim();
+    var phone2 = document.getElementById('ap_phone2').value.trim();
+    var waNum  = document.getElementById('ap_waNum').value.trim();
+    var schoolName = document.getElementById('ap_schoolName').value.trim();
+    var motto  = document.getElementById('ap_motto').value.trim();
+    var addr   = document.getElementById('ap_shortAddr').value.trim();
+    var instaUrl  = document.getElementById('ap_instagram').value.trim();
+    var fbUrl     = document.getElementById('ap_facebook').value.trim();
+    var ytUrl     = document.getElementById('ap_youtube').value.trim();
+    var days   = document.getElementById('ap_days').value.trim();
+    var hours  = document.getElementById('ap_hours').value.trim();
+    var email  = document.getElementById('ap_email').value.trim();
+    var affNo  = document.getElementById('ap_affNo').value.trim();
+    var scCode = document.getElementById('ap_schoolCode').value.trim();
+    var principalName = document.getElementById('ap_principalName').value.trim();
+    var principalQual = document.getElementById('ap_principalQual').value.trim();
+
+    // --- General ---
+    setText('navSchoolName', schoolName);
+    setText('navMotto', motto);
+    setText('mobileSchoolName', schoolName);
+    setText('footerSchoolName', schoolName);
+    setText('footerMotto', motto);
+    setText('topbarAddr', '📍 '+addr);
+    setHref('topPhone1', 'tel:'+phone1); setText('topPhone1', phone1);
+    setHref('topPhone2', 'tel:'+phone2); setText('topPhone2', phone2);
+    setHref('topWaLink', 'https://wa.me/'+waNum);
+    setHref('floatPhone', 'tel:'+phone1);
+    setHref('floatWa', 'https://wa.me/'+waNum);
+
+    // --- Social ---
+    setHref('footerInsta', instaUrl); setHref('ctInsta', instaUrl);
+    setHref('footerFb', fbUrl); setHref('ctFb', fbUrl);
+    setHref('footerYt', ytUrl); setHref('ctYt', ytUrl);
+    setHref('footerWa', 'https://wa.me/'+waNum);
+
+    // --- Contact ---
+    setText('contactHeroTitleEl', document.getElementById('ap_contactHeroTitle').value.trim());
+    setText('contactHeroSubEl', document.getElementById('ap_contactHeroSub').value.trim());
+    setText('contactAddrEl', addr);
+    setHref('contactPhone1El', 'tel:'+phone1); setText('contactPhone1El', phone1);
+    setHref('contactPhone2El', 'tel:'+phone2); setText('contactPhone2El', phone2);
+    setHref('contactWa1', 'https://wa.me/'+waNum); setText('contactWa1', phone1);
+    setText('contactHoursEl', days+': '+hours);
+    thankYouMsg = document.getElementById('ap_thankYouMsg').value;
+
+    // --- Maps ---
+    document.getElementById('mapsIframe').src = document.getElementById('ap_mapsUrl').value.trim();
+
+    // --- Footer ---
+    setText('footerAboutEl', document.getElementById('ap_footerAbout').value.trim());
+    setText('footerCopyright', document.getElementById('ap_copyright').value.trim());
+    setText('footerAddr', addr);
+    setHref('footerPhone1','tel:'+phone1); setText('footerPhone1', phone1);
+    setHref('footerPhone2','tel:'+phone2); setText('footerPhone2', phone2);
+    setText('footerHours', days.substring(0,3)+' – Sat: '+hours);
+
+    // --- MPD Page ---
+    setText('mpd_name', schoolName);
+    setText('mpd_aff', affNo);
+    setText('mpd_code', scCode);
+    setText('mpd_addr', document.getElementById('ap_address').value.trim());
+    setText('mpd_principal', principalName+', '+principalQual);
+    setText('mpd_email', email);
+    setText('mpd_contact', phone1+', '+phone2);
+    setText('mpd_principalName', principalName);
+
+    // --- About section ---
+    setText('aboutLabelEl', document.getElementById('ap_aboutLabel').value.trim());
+    setText('aboutTitleEl', document.getElementById('ap_aboutTitle').value.trim());
+    setText('aboutQuoteEl', document.getElementById('ap_aboutQuote').value.trim());
+    setText('aboutP1El', document.getElementById('ap_aboutP1').value.trim());
+    setText('aboutP2El', document.getElementById('ap_aboutP2').value.trim());
+    setText('aboutP3El', document.getElementById('ap_aboutP3').value.trim());
+    document.getElementById('aboutImg').src = document.getElementById('ap_aboutImg').value.trim();
+
+    // --- Hero slides ---
+    applyHeroSlide(0);
+    applyHeroSlide(1);
+    applyHeroSlide(2);
+
+    // --- Stats ---
+    applyStats();
+
+    // --- Toppers ---
+    applyToppers();
+
+    // --- Features ---
+    applyFeatures();
+
+    // --- Testimonials ---
+    applyTestimonials();
+
+    // --- Videos ---
+    applyVideos();
+
+    // --- Marquee ---
+    applyMarquee();
+
+    showToast('All changes applied successfully!');
+  } catch(e){
+    showToast('Error: '+e.message, true);
+  }
+}
+
+function setText(id, val){
+  var el = document.getElementById(id);
+  if(el) el.textContent = val;
+}
+function setHref(id, val){
+  var el = document.getElementById(id);
+  if(el) el.href = val;
+}
+
+function parseHeading(raw){
+  // Convert [em]text[/em] to <em>text</em>
+  return raw.replace(/\[em\](.*?)\[\/em\]/g, '<em>$1</em>');
+}
+
+function applyHeroSlide(i){
+  var badges = ['ap_s1badge','ap_s2badge','ap_s3badge'];
+  var heads  = ['ap_s1h1','ap_s2h1','ap_s3h1'];
+  var paras  = ['ap_s1p','ap_s2p','ap_s3p'];
+  var imgs   = ['ap_s1img','ap_s2img','ap_s3img'];
+
+  var b = document.getElementById(badges[i]);
+  var h = document.getElementById(heads[i]);
+  var p = document.getElementById(paras[i]);
+  var im= document.getElementById(imgs[i]);
+
+  if(b && document.getElementById('heroBadge'+i))
+    document.getElementById('heroBadge'+i).textContent = b.value;
+  if(h && document.getElementById('heroH1'+i))
+    document.getElementById('heroH1'+i).innerHTML = parseHeading(h.value);
+  if(p && document.getElementById('heroP'+i))
+    document.getElementById('heroP'+i).textContent = p.value;
+  if(im && document.getElementById('heroImg'+i))
+    document.getElementById('heroImg'+i).src = im.value;
+}
+
+function applyToppers(){
+  var grid = document.getElementById('toppersGrid');
+  grid.innerHTML = adminData.toppers.map(function(t){
+    return `<div class="topper-card">
+      <div class="topper-photo">
+        <img src="${t.img}" alt="${t.name}" onerror="this.style.display='none'"/>
+        <div class="topper-badge-top">${t.badge}</div>
+      </div>
+      <div class="topper-info">
+        <div class="topper-score">${t.score}</div>
+        <div class="topper-name">${t.name}</div>
+        <div class="topper-class">${t.cls}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function applyFeatures(){
+  var grid = document.getElementById('featuresGrid');
+  grid.innerHTML = adminData.features.map(function(f){
+    return `<div class="feature-card">
+      <div class="feature-icon-box">${f.icon}</div>
+      <div class="feature-body">
+        <h3>${f.title}</h3>
+        <p>${f.desc}</p>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function applyTestimonials(){
+  var track = document.getElementById('testiTrack');
+  track.innerHTML = adminData.testimonials.map(function(t){
+    var init = t.name.charAt(0).toUpperCase();
+    return `<div class="testi-card">
+      <div class="testi-avatar">${init}</div>
+      <div class="testi-name">${t.name}</div>
+      <div class="testi-role">${t.role}</div>
+      <div class="testi-text">${t.text}</div>
+      <div class="stars">★★★★★ &nbsp;<em style="font-size:13px;color:var(--gold);font-style:normal;font-weight:800;">Excellent!!</em></div>
+    </div>`;
+  }).join('');
+  // Rebuild dots
+  var nav = document.getElementById('testiNav');
+  nav.innerHTML = adminData.testimonials.map(function(_,i){
+    return `<div class="testi-dot${i===0?' active':''}" onclick="goTesti(${i})"></div>`;
+  }).join('');
+  currentTesti = 0;
+}
+
+function applyVideos(){
+  var grid = document.getElementById('videoGrid');
+  grid.innerHTML = adminData.videos.map(function(v){
+    return `<div class="video-card">
+      <video controls><source src="${v.src}" type="video/mp4">Your browser does not support the video tag.</video>
+      <div class="video-info"><p>${v.label}</p><small>${v.sub}</small></div>
+    </div>`;
+  }).join('');
+}
+
+function applyMarquee(){
+  var items = adminData.marquee;
+  var doubled = [...items, ...items]; // duplicate for seamless scroll
+  document.getElementById('marqueeInner').innerHTML = doubled.map(function(m){
+    return `<span>${m}</span>`;
+  }).join('');
+}
+
+// ==========================================
+// DOWNLOAD MODIFIED HTML
+// ==========================================
+function downloadModifiedHTML(){
+  applyAllChanges();
+  setTimeout(function(){
+    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    // Remove admin panel elements from download
+    var parser = new DOMParser();
+    var doc = parser.parseFromString(html, 'text/html');
+    var adminPanel = doc.getElementById('adminPanel');
+    var loginOverlay = doc.getElementById('adminLoginOverlay');
+    var toggleBtn = doc.getElementById('adminToggleBtn');
+    var toast = doc.getElementById('apToast');
+    if(adminPanel) adminPanel.remove();
+    if(loginOverlay) loginOverlay.remove();
+    if(toggleBtn) toggleBtn.remove();
+    if(toast) toast.remove();
+    var serializer = new XMLSerializer();
+    var finalHtml = '<!DOCTYPE html>\n' + serializer.serializeToString(doc.documentElement);
+    var blob = new Blob([finalHtml], {type:'text/html'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'srm_school_updated.html';
+    a.click();
+    showToast('HTML exported!');
+  }, 300);
+}
+</script>
+</body>
+</html>
